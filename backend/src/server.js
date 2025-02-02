@@ -80,19 +80,18 @@ app.get("/", (request, reply) => {
 });
 // Fonction pour décoder et vérifier le token
 app.decorate("authenticate", async (request, reply) => {
-	try {
-		const token = request.headers["authorization"].split(" ")[1];
+  try {
+    const token = request.headers["authorization"].split(" ")[1];
 
-		// Vérifier si le token est dans la liste noire
-		if (blacklistedTokens.includes(token)) {
-			return reply
-				.status(401)
-				.send({ error: "Token invalide ou expiré" });
-		}
-		await request.jwtVerify();
-	} catch (err) {
-		reply.send(err);
-	}
+    if (blacklistedTokens.includes(token)) {
+      return reply
+        .status(401)
+        .send({ error: "Token invalide ou expiré" });
+    }
+    await request.jwtVerify();
+  } catch (err) {
+    reply.send(err);
+  }
 });
 //gestion utilisateur
 usersRoutes(app,blacklistedTokens);
