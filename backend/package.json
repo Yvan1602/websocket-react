@@ -6,7 +6,7 @@
 	"author": "haudrey.dev",
 	"type": "module",
 	"dependencies": {
-		"@fastify/cors": "^10.0.0",
+		"@fastify/cors": "^10.0.2",
 		"@fastify/jwt": "^9.0.0",
 		"@fastify/swagger": "^9.0.0",
 		"@fastify/swagger-ui": "^5.0.1",
@@ -16,7 +16,9 @@
 		"fastify": "^5.0.0",
 		"fastify-bcrypt": "^1.0.1",
 		"mysql2": "^3.11.3",
-		"sequelize": "^6.37.3"
+		"sequelize": "^6.37.3",
+		"@fastify/websocket": "^8.3.0",
+		"socket.io": "^4.7.4"
 	},
 	"scripts": {
 		"dev": "node --watch src/server.js"

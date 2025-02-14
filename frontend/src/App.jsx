@@ -1,9 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './output.css';
 import Home from './Home.jsx';
 import { AuthContext } from './AuthContext';
 import Login from './Login';
+import Game from './Game.jsx';
 
 const router = createBrowserRouter([
   {
@@ -21,19 +22,28 @@ const router = createBrowserRouter([
       <div>A propos</div>
     </div>,
   },
+  {
+    path: "/game/:gameId",
+    element: <div>
+      <Nav />
+      <Game />
+    </div>,
+  },
 ]);
 
 function Nav() {
   const { user, logout } = useContext(AuthContext);
-  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const [isDarkTheme, setIsDarkTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme === 'dark';
+  });
 
   const toggleTheme = () => {
     const htmlElement = document.documentElement;
-    const currentTheme = htmlElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    const newTheme = isDarkTheme ? 'light' : 'dark';
     htmlElement.setAttribute('data-theme', newTheme);
-    document.getElementById('theme-toggle').checked = newTheme === 'dark';
-    localStorage.setItem('theme', newTheme); // Save the theme to local storage
+    setIsDarkTheme(!isDarkTheme);
+    localStorage.setItem('theme', newTheme);
   };
 
   return (
@@ -56,7 +66,8 @@ function Nav() {
                     <div>
                       <label className="grid cursor-pointer place-items-center">
                         <input
-                          checked={currentTheme === 'dark'}
+                          checked={isDarkTheme}
+                          onChange={toggleTheme}
                           id="theme-toggle"
                           type="checkbox"
                           className="toggle bg-base-content col-span-2 col-start-1 row-start-1" />

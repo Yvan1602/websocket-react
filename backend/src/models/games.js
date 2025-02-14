@@ -8,14 +8,27 @@ const Game = sequelize.define("game", {
 		primaryKey: true,
 		defaultValue: DataTypes.UUIDV4,
 	},
-	winnerScore: {
-		type: DataTypes.INTEGER,
-		allowNull: true,
-	},
 	state: {
-		type: DataTypes.ENUM("pending", "playing", "finished"),
+		type: DataTypes.ENUM("waiting", "ready", "playing", "finished"),
 		allowNull: false,
-		defaultValue: "pending",
+		defaultValue: "waiting",
+	},
+	players: {
+		type: DataTypes.JSON,
+		allowNull: false,
+		defaultValue: [],
+	},
+	currentTurn: {
+		type: DataTypes.INTEGER,
+		defaultValue: 0,
+	},
+	scores: {
+		type: DataTypes.JSON,
+		defaultValue: {},
+	},
+	createdBy: {
+		type: DataTypes.STRING,
+		allowNull: false,
 	},
 });
 Game.belongsTo(User, { targetKey: "id", foreignKey: "creator", as: "player1" });
